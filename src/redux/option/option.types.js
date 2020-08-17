@@ -1,0 +1,7 @@
+const OptionActionTypes = {
+	SET_SCAN_MODE: 'SET_SCAN_MODE',
+	SET_OUTPUT_MODE: 'SET_OUTPUT_MODE',
+	SCROLL_IMAGES_CONTAINER: 'SCROLL_IMAGES_CONTAINER',
+}
+
+export default OptionActionTypes

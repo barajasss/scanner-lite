@@ -1,0 +1,16 @@
+.mini-image-preview {
+	max-height: 95%;
+	width: auto;
+	margin: 5px;
+	cursor: pointer;
+	border: 2px solid transparent;
+}
+
+.mini-image-preview.selected {
+	border: 2px solid #444;
+	box-shadow: 1px 1px 5px 1px #555;
+}
+
+.mini-image-preview:hover {
+	border: 2px solid #444;
+}
