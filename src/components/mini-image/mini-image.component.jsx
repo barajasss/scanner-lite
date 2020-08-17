@@ -6,6 +6,7 @@ import {
 	moveImageRight,
 } from '../../redux/image/image.actions'
 import { connect } from 'react-redux'
+import { selectTotalImages } from '../../redux/image/image.selectors'
 
 import './mini-image.styles.scss'
 
@@ -25,6 +26,7 @@ class MiniImage extends Component {
 			currentImageIndex,
 			moveImageLeft,
 			moveImageRight,
+			totalImages,
 		} = this.props
 		const selected = currentImageIndex === index
 		return (
@@ -36,16 +38,21 @@ class MiniImage extends Component {
 				</button>
 				{selected && (
 					<div className='mini-image-preview-mover'>
-						<button
-							className='mini-image-movers mover-left'
-							onClick={() => moveImageLeft(index)}>
-							<i className='fas fa-chevron-left' />
-						</button>
-						<button
-							className='mini-image-movers mover-right'
-							onClick={() => moveImageRight(index)}>
-							<i className='fas fa-chevron-right' />
-						</button>
+						{index !== 0 && (
+							<button
+								className='mini-image-movers mover-left'
+								onClick={() => moveImageLeft(index)}>
+								<i className='fas fa-chevron-left' />
+							</button>
+						)}
+						{index !== totalImages - 1 && (
+							<button
+								className='mini-image-movers mover-right'
+								onClick={() => moveImageRight(index)}>
+								<i className='fas fa-chevron-right' />
+							</button>
+						)}
+						}
 					</div>
 				)}
 				<img
@@ -64,6 +71,7 @@ class MiniImage extends Component {
 const mapStateToProps = state => ({
 	previewImage: state.image.previewImage,
 	currentImageIndex: state.image.currentImageIndex,
+	totalImages: selectTotalImages(state),
 })
 
 const mapDispatchToProps = dispatch => ({

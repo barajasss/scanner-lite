@@ -52,13 +52,12 @@ const imageReducer = (state = initialImageState, action) => {
 		}
 		case ImageActionTypes.MOVE_LEFT: {
 			let updatedImageIndex = state.currentImageIndex
-			let updatedOriginalImages, updatedScannedImages
+			let updatedOriginalImages = [...state.originalImages]
+			let updatedScannedImages = [...state.scannedImages]
 			if (updatedImageIndex > 0) {
 				updatedImageIndex--
 
 				// swap the value to the left array element in original images
-
-				updatedOriginalImages = [...state.originalImages]
 				let temp = updatedOriginalImages[state.currentImageIndex]
 				updatedOriginalImages[state.currentImageIndex] =
 					updatedOriginalImages[updatedImageIndex]
@@ -66,7 +65,6 @@ const imageReducer = (state = initialImageState, action) => {
 
 				// swap the value to the left of array element in scanned images
 
-				updatedScannedImages = [...state.scannedImages]
 				temp = updatedScannedImages[state.currentImageIndex]
 				updatedScannedImages[state.currentImageIndex] =
 					updatedScannedImages[updatedImageIndex]
@@ -81,7 +79,9 @@ const imageReducer = (state = initialImageState, action) => {
 		}
 		case ImageActionTypes.MOVE_RIGHT: {
 			let updatedImageIndex = state.currentImageIndex
-			let updatedOriginalImages, updatedScannedImages
+			let updatedOriginalImages = [...state.originalImages]
+			let updatedScannedImages = [...state.scannedImages]
+
 			if (updatedImageIndex < state.originalImages.length - 1) {
 				updatedImageIndex++
 
