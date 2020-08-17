@@ -20,15 +20,19 @@ class ImagesContainer extends Component {
 		}
 	}
 	render() {
-		const { originalImages, scannedImages } = this.props
+		const { originalImages, scannedImages, scanMode } = this.props
 		if (originalImages.length === 0 || scannedImages.length === 0) {
 			return <div></div>
 		}
 		return (
 			<div id='images-container' ref={this.imagesContainerEl}>
-				{originalImages.map(img => (
-					<MiniImage key={img.id} img={img} />
-				))}
+				{scanMode
+					? scannedImages.map((img, i) => (
+							<MiniImage index={i} key={img.id} img={img} />
+					  ))
+					: originalImages.map((img, i) => (
+							<MiniImage index={i} key={img.id} img={img} />
+					  ))}
 			</div>
 		)
 	}
@@ -37,11 +41,12 @@ class ImagesContainer extends Component {
 const mapStateToProps = state => {
 	const {
 		image: { originalImages, scannedImages },
-		option: { scrollImagesContainerFlag },
+		option: { scrollImagesContainerFlag, scanMode },
 	} = state
 	return {
 		originalImages,
 		scannedImages,
+		scanMode,
 		scrollImagesContainerFlag,
 	}
 }

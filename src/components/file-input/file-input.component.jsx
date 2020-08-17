@@ -1,17 +1,19 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { addImage, setPreviewImage } from '../../redux/image/image.actions'
+import { addImage, setCurrentImageIndex } from '../../redux/image/image.actions'
 import { scrollImagesContainer } from '../../redux/option/option.actions'
-import {
-	selectLastOriginalImage,
-	selectLastScannedImage,
-} from '../../redux/image/image.selectors'
-import { getImageUrl } from '../../utils/imageProcessor'
+import { selectTotalImages } from '../../redux/image/image.selectors'
+
+import { getImageUrl, getScannedImageUrl } from '../../utils/imageProcessor'
 
 class FileInput extends Component {
+	constructor() {
+		super()
+		this.canvas = React.createRef()
+	}
 	componentDidUpdate() {
-		const { lastOriginalImage, setPreviewImage } = this.props
-		setPreviewImage(lastOriginalImage)
+		const { totalImages, setCurrentImageIndex } = this.props
+		setCurrentImageIndex(totalImages - 1)
 	}
 	handleAddImage = async () => {
 		const { imagePicker, addImage, scrollImagesContainer } = this.props
@@ -25,6 +27,10 @@ class FileInput extends Component {
 				return
 			}
 			const imageUrl = await getImageUrl(file)
+			const scannedImageUrl = await getScannedImageUrl(
+				this.canvas.current,
+				imageUrl
+			)
 			addImage({
 				originalImage: {
 					name: file.name,
@@ -32,7 +38,7 @@ class FileInput extends Component {
 				},
 				scannedImage: {
 					name: file.name,
-					url: imageUrl,
+					url: scannedImageUrl,
 				},
 			})
 		}
@@ -41,27 +47,29 @@ class FileInput extends Component {
 	render() {
 		const { imagePicker } = this.props
 		return (
-			<input
-				className='d-none form-control'
-				id='image-picker'
-				type='file'
-				accept='image/*'
-				multiple
-				ref={imagePicker}
-				onChange={this.handleAddImage}
-			/>
+			<div>
+				<canvas ref={this.canvas} style={{ display: 'none' }}></canvas>
+				<input
+					className='d-none form-control'
+					id='image-picker'
+					type='file'
+					accept='image/*'
+					multiple
+					ref={imagePicker}
+					onChange={this.handleAddImage}
+				/>
+			</div>
 		)
 	}
 }
 
 const mapStateToProps = state => ({
-	lastOriginalImage: selectLastOriginalImage(state),
-	lastScannedImage: selectLastScannedImage(state),
+	totalImages: selectTotalImages(state),
 })
 
 const mapDispatchToProps = dispatch => ({
 	addImage: img => dispatch(addImage(img)),
-	setPreviewImage: img => dispatch(setPreviewImage(img)),
+	setCurrentImageIndex: index => dispatch(setCurrentImageIndex(index)),
 	scrollImagesContainer: scrollFlag =>
 		dispatch(scrollImagesContainer(scrollFlag)),
 })

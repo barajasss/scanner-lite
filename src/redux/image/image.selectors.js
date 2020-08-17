@@ -19,6 +19,11 @@ const selectLastOriginalImage = createSelector(
 	}
 )
 
+const selectTotalImages = createSelector(
+	selectOriginalImages,
+	originalImages => originalImages.length
+)
+
 const selectLastScannedImage = createSelector(
 	selectScannedImages,
 	scannedImages => scannedImages[scannedImages.length - 1]
@@ -29,4 +34,5 @@ export {
 	selectScannedImages,
 	selectLastOriginalImage,
 	selectLastScannedImage,
+	selectTotalImages,
 }

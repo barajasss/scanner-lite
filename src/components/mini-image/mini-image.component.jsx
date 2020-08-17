@@ -1,30 +1,24 @@
 import React, { Component } from 'react'
-import { setPreviewImage } from '../../redux/image/image.actions'
+import { setCurrentImageIndex } from '../../redux/image/image.actions'
 import { connect } from 'react-redux'
 
 import './mini-image.styles.scss'
 
 class MiniImage extends Component {
 	selectImage = () => {
-		const {
-			img: { id, name, url },
-			setPreviewImage,
-		} = this.props
-		setPreviewImage({
-			id,
-			name,
-			url,
-		})
+		const { index, setCurrentImageIndex } = this.props
+		setCurrentImageIndex(index)
 	}
 	render() {
 		const {
-			img: { id, name, url },
-			previewImage,
+			img: { name, url },
+			index,
+			currentImageIndex,
 		} = this.props
 		return (
 			<img
 				className={`mini-image-preview ${
-					previewImage && previewImage.id === id ? 'selected' : ''
+					currentImageIndex === index ? 'selected' : ''
 				}`}
 				src={url}
 				alt={name}
@@ -36,10 +30,11 @@ class MiniImage extends Component {
 
 const mapStateToProps = state => ({
 	previewImage: state.image.previewImage,
+	currentImageIndex: state.image.currentImageIndex,
 })
 
 const mapDispatchToProps = dispatch => ({
-	setPreviewImage: img => dispatch(setPreviewImage(img)),
+	setCurrentImageIndex: index => dispatch(setCurrentImageIndex(index)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(MiniImage)

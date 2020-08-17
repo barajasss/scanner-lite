@@ -2,7 +2,7 @@ import { v4 as uuidv4 } from 'uuid'
 import ImageActionTypes from './image.types'
 
 const initialImageState = {
-	previewImage: null,
+	currentImageIndex: 0,
 	originalImages: [],
 	scannedImages: [],
 }
@@ -39,10 +39,10 @@ const imageReducer = (state = initialImageState, action) => {
 					img => img.id !== action.payload
 				),
 			}
-		case ImageActionTypes.SET_PREVIEW:
+		case ImageActionTypes.SET_CURRENT_IMAGE_INDEX:
 			return {
 				...state,
-				previewImage: action.payload,
+				currentImageIndex: action.payload,
 			}
 		default:
 			return state

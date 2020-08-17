@@ -10,9 +10,9 @@ const removeImage = id => ({
 	payload: id,
 })
 
-const setPreviewImage = img => ({
-	type: ImageActionTypes.SET_PREVIEW,
-	payload: img,
+const setCurrentImageIndex = index => ({
+	type: ImageActionTypes.SET_CURRENT_IMAGE_INDEX,
+	payload: index,
 })
 const moveImageLeft = id => ({
 	type: ImageActionTypes.MOVE_LEFT,
@@ -24,4 +24,10 @@ const moveImageRight = id => ({
 	payload: id,
 })
 
-export { addImage, removeImage, moveImageLeft, moveImageRight, setPreviewImage }
+export {
+	addImage,
+	removeImage,
+	moveImageLeft,
+	moveImageRight,
+	setCurrentImageIndex,
+}

@@ -5,10 +5,20 @@ import './image-preview.styles.scss'
 
 class ImagePreview extends Component {
 	render() {
-		const { previewImage } = this.props
-		let name, url
-		if (previewImage) {
-			;({ name, url } = previewImage)
+		const {
+			currentImageIndex,
+			originalImages,
+			scannedImages,
+			scanMode,
+		} = this.props
+		let previewImage, url, name
+		if (originalImages.length !== 0) {
+			if (scanMode) {
+				previewImage = scannedImages[currentImageIndex]
+			} else {
+				previewImage = originalImages[currentImageIndex]
+			}
+			;({ url, name } = previewImage)
 		}
 		return (
 			<div id='image-container'>
@@ -27,6 +37,14 @@ class ImagePreview extends Component {
 	}
 }
 
-const mapStateToProps = ({ image: { previewImage } }) => ({ previewImage })
+const mapStateToProps = ({
+	image: { currentImageIndex, scannedImages, originalImages },
+	option: { scanMode },
+}) => ({
+	currentImageIndex,
+	scannedImages,
+	originalImages,
+	scanMode,
+})
 
 export default connect(mapStateToProps)(ImagePreview)
