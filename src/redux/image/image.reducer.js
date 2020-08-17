@@ -29,20 +29,89 @@ const imageReducer = (state = initialImageState, action) => {
 				],
 			}
 		}
-		case ImageActionTypes.REMOVE:
+		case ImageActionTypes.REMOVE: {
+			let updatedImageIndex = state.currentImageIndex
+			if (state.originalImages.length === 1) {
+				updatedImageIndex = 0
+			} else if (
+				state.currentImageIndex ===
+				state.originalImages.length - 1
+			) {
+				if (updatedImageIndex > 0) updatedImageIndex--
+			}
 			return {
 				...state,
+				currentImageIndex: updatedImageIndex,
 				originalImages: [...state.originalImages].filter(
-					img => img.id !== action.payload
+					(img, index) => index !== action.payload
 				),
 				scannedImages: [...state.scannedImages].filter(
-					img => img.id !== action.payload
+					(img, index) => index !== action.payload
 				),
 			}
+		}
+		case ImageActionTypes.MOVE_LEFT: {
+			let updatedImageIndex = state.currentImageIndex
+			let updatedOriginalImages, updatedScannedImages
+			if (updatedImageIndex > 0) {
+				updatedImageIndex--
+
+				// swap the value to the left array element in original images
+
+				updatedOriginalImages = [...state.originalImages]
+				let temp = updatedOriginalImages[state.currentImageIndex]
+				updatedOriginalImages[state.currentImageIndex] =
+					updatedOriginalImages[updatedImageIndex]
+				updatedOriginalImages[updatedImageIndex] = temp
+
+				// swap the value to the left of array element in scanned images
+
+				updatedScannedImages = [...state.scannedImages]
+				temp = updatedScannedImages[state.currentImageIndex]
+				updatedScannedImages[state.currentImageIndex] =
+					updatedScannedImages[updatedImageIndex]
+				updatedScannedImages[updatedImageIndex] = temp
+			}
+			return {
+				...state,
+				currentImageIndex: updatedImageIndex,
+				originalImages: updatedOriginalImages,
+				scannedImages: updatedScannedImages,
+			}
+		}
+		case ImageActionTypes.MOVE_RIGHT: {
+			let updatedImageIndex = state.currentImageIndex
+			let updatedOriginalImages, updatedScannedImages
+			if (updatedImageIndex < state.originalImages.length - 1) {
+				updatedImageIndex++
+
+				// swap the value to the left array element in original images
+
+				updatedOriginalImages = [...state.originalImages]
+				let temp = updatedOriginalImages[state.currentImageIndex]
+				updatedOriginalImages[state.currentImageIndex] =
+					updatedOriginalImages[updatedImageIndex]
+				updatedOriginalImages[updatedImageIndex] = temp
+
+				// swap the value to the left of array element in scanned images
+
+				updatedScannedImages = [...state.scannedImages]
+				temp = updatedScannedImages[state.currentImageIndex]
+				updatedScannedImages[state.currentImageIndex] =
+					updatedScannedImages[updatedImageIndex]
+				updatedScannedImages[updatedImageIndex] = temp
+			}
+			return {
+				...state,
+				currentImageIndex: updatedImageIndex,
+				originalImages: updatedOriginalImages,
+				scannedImages: updatedScannedImages,
+			}
+		}
 		case ImageActionTypes.SET_CURRENT_IMAGE_INDEX:
 			return {
 				...state,
-				currentImageIndex: action.payload,
+				currentImageIndex: action.payload === -1 ? 0 : action.payload,
 			}
 		default:
 			return state

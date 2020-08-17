@@ -57,6 +57,7 @@ class FileInput extends Component {
 					multiple
 					ref={imagePicker}
 					onChange={this.handleAddImage}
+					onClick={e => (e.target.value = null)}
 				/>
 			</div>
 		)

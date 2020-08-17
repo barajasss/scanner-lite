@@ -5,23 +5,23 @@ const addImage = img => ({
 	payload: img,
 })
 
-const removeImage = id => ({
+const removeImage = index => ({
 	type: ImageActionTypes.REMOVE,
-	payload: id,
+	payload: index,
 })
 
 const setCurrentImageIndex = index => ({
 	type: ImageActionTypes.SET_CURRENT_IMAGE_INDEX,
 	payload: index,
 })
-const moveImageLeft = id => ({
+const moveImageLeft = index => ({
 	type: ImageActionTypes.MOVE_LEFT,
-	payload: id,
+	payload: index,
 })
 
-const moveImageRight = id => ({
+const moveImageRight = index => ({
 	type: ImageActionTypes.MOVE_RIGHT,
-	payload: id,
+	payload: index,
 })
 
 export {
