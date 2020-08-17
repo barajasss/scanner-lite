@@ -4,6 +4,7 @@ const optionInitialState = {
 	scanMode: false,
 	outputMode: true,
 	scrollImagesContainerFlag: false,
+	importedImageFlag: false,
 }
 
 const optionReducer = (state = optionInitialState, action) => {
@@ -22,6 +23,11 @@ const optionReducer = (state = optionInitialState, action) => {
 			return {
 				...state,
 				scrollImagesContainerFlag: action.payload,
+			}
+		case OptionActionTypes.SET_IMPORTED_IMAGE:
+			return {
+				...state,
+				importedImageFlag: action.payload,
 			}
 		default:
 			return state

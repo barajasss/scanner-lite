@@ -1,7 +1,10 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { addImage, setCurrentImageIndex } from '../../redux/image/image.actions'
-import { scrollImagesContainer } from '../../redux/option/option.actions'
+import {
+	scrollImagesContainer,
+	setImportedImage,
+} from '../../redux/option/option.actions'
 import { selectTotalImages } from '../../redux/image/image.selectors'
 
 import { getImageUrl, getScannedImageUrl } from '../../utils/imageProcessor'
@@ -12,11 +15,24 @@ class FileInput extends Component {
 		this.canvas = React.createRef()
 	}
 	componentDidUpdate() {
-		const { totalImages, setCurrentImageIndex } = this.props
-		setCurrentImageIndex(totalImages - 1)
+		const {
+			totalImages,
+			setCurrentImageIndex,
+			importedImageFlag,
+			setImportedImage,
+		} = this.props
+		if (importedImageFlag) {
+			setCurrentImageIndex(totalImages - 1)
+			setImportedImage(false)
+		}
 	}
 	handleAddImage = async () => {
-		const { imagePicker, addImage, scrollImagesContainer } = this.props
+		const {
+			imagePicker,
+			addImage,
+			scrollImagesContainer,
+			setImportedImage,
+		} = this.props
 		imagePicker.current.blur()
 		if (imagePicker.current.files.length === 0) {
 			return
@@ -43,6 +59,7 @@ class FileInput extends Component {
 			})
 		}
 		scrollImagesContainer(true)
+		setImportedImage(true)
 	}
 	render() {
 		const { imagePicker } = this.props
@@ -66,6 +83,7 @@ class FileInput extends Component {
 
 const mapStateToProps = state => ({
 	totalImages: selectTotalImages(state),
+	importedImageFlag: state.option.importedImageFlag,
 })
 
 const mapDispatchToProps = dispatch => ({
@@ -73,6 +91,8 @@ const mapDispatchToProps = dispatch => ({
 	setCurrentImageIndex: index => dispatch(setCurrentImageIndex(index)),
 	scrollImagesContainer: scrollFlag =>
 		dispatch(scrollImagesContainer(scrollFlag)),
+	setImportedImage: importedImageFlag =>
+		dispatch(setImportedImage(importedImageFlag)),
 })
 
 const ConnectedFileInput = connect(

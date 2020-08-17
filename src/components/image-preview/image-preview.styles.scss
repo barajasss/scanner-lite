@@ -5,3 +5,16 @@
 #image-preview {
 	border: 2px solid rgb(1, 56, 100);
 }
+
+.flash {
+	animation: flash 0.4s linear;
+}
+
+@keyframes flash {
+	from {
+		opacity: 0;
+	}
+	to {
+		opacity: 1;
+	}
+}

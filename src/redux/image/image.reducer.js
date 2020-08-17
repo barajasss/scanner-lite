@@ -111,8 +111,10 @@ const imageReducer = (state = initialImageState, action) => {
 		case ImageActionTypes.SET_CURRENT_IMAGE_INDEX:
 			return {
 				...state,
-				currentImageIndex: action.payload === -1 ? 0 : action.payload,
+				currentImageIndex: action.payload,
 			}
+		case ImageActionTypes.CLEAR_IMAGES:
+			return initialImageState
 		default:
 			return state
 	}

@@ -4,6 +4,7 @@ const ImageActionTypes = {
 	MOVE_LEFT: 'MOVE_LEFT',
 	MOVE_RIGHT: 'MOVE_RIGHT',
 	SET_CURRENT_IMAGE_INDEX: 'SET_CURRENT_IMAGE_INDEX',
+	CLEAR_IMAGES: 'CLEAR_IMAGES',
 }
 
 export default ImageActionTypes

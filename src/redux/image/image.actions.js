@@ -5,6 +5,10 @@ const addImage = img => ({
 	payload: img,
 })
 
+const clearImages = () => ({
+	type: ImageActionTypes.CLEAR_IMAGES,
+})
+
 const removeImage = index => ({
 	type: ImageActionTypes.REMOVE,
 	payload: index,
@@ -30,4 +34,5 @@ export {
 	moveImageLeft,
 	moveImageRight,
 	setCurrentImageIndex,
+	clearImages,
 }

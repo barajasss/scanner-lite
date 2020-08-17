@@ -15,4 +15,9 @@ const scrollImagesContainer = scrollFlag => ({
 	payload: scrollFlag,
 })
 
-export { setOutputMode, setScanMode, scrollImagesContainer }
+const setImportedImage = importedImageFlag => ({
+	type: OptionActionTypes.SET_IMPORTED_IMAGE,
+	payload: importedImageFlag,
+})
+
+export { setOutputMode, setScanMode, scrollImagesContainer, setImportedImage }

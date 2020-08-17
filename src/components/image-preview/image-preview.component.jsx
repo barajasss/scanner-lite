@@ -4,6 +4,28 @@ import { connect } from 'react-redux'
 import './image-preview.styles.scss'
 
 class ImagePreview extends Component {
+	constructor() {
+		super()
+		this.state = {
+			flash: false,
+		}
+	}
+	componentDidUpdate(prevProps) {
+		if (this.props.currentImageIndex !== prevProps.currentImageIndex) {
+			this.setState(
+				{
+					flash: true,
+				},
+				() => {
+					setTimeout(() => {
+						this.setState({
+							flash: false,
+						})
+					}, 400)
+				}
+			)
+		}
+	}
 	render() {
 		const {
 			currentImageIndex,
@@ -20,13 +42,14 @@ class ImagePreview extends Component {
 			}
 			;({ url, name } = previewImage)
 		}
+		const { flash } = this.state
 		return (
 			<div id='image-container'>
 				{previewImage ? (
 					<img
 						id='image-preview'
 						src={url}
-						className='img-fluid'
+						className={`img-fluid ${flash ? 'flash' : ''}`}
 						alt={`${name} preview`}
 					/>
 				) : (
